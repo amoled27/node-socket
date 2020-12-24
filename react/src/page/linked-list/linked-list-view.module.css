@@ -1,0 +1,27 @@
+.node:hover {
+    transform: scale(1.1);
+    border: 1px solid #636363;
+    outline: none;
+}
+
+.node {
+    padding: 40px;
+    border-radius: 7px;
+    margin: 2px;
+    width: 4em;
+    overflow: hidden;
+    font-size: 35px;
+    white-space:nowrap;
+    text-overflow: ellipsis;
+    display: inline-block;
+    color: #fff
+}
+
+.node_container {
+    padding-top: 100px
+}
+
+.head {
+    display: inline-block;
+    padding: 20px
+}
