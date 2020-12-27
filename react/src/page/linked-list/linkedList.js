@@ -1,9 +1,9 @@
 import React from 'react';
-import linkedList from './linked-list.js';
-import css from './linked-list-view.module.css';
+import linkedList from '../../libs/linkedList.js';
+import css from './linkedList.module.css';
 
 
-class LinkedListView extends React.Component {
+class LinkedList extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -57,4 +57,4 @@ class LinkedListView extends React.Component {
         )
     }
 }
-export default LinkedListView; 
+export default LinkedList; 

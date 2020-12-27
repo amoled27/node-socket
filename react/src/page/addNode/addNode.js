@@ -26,7 +26,7 @@ let Style = {
         cursor: "pointer"
     }
 };
-class NodeAdder extends React.Component {
+class AddNode extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -56,4 +56,4 @@ class NodeAdder extends React.Component {
     }
 }
 
-export default NodeAdder; 
+export default AddNode; 
