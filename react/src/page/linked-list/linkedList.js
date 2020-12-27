@@ -48,38 +48,37 @@ class LinkedList extends React.Component {
 
     //remove duplicates from sorted linkedlist
     removeDuplicateNodes = () => {
+        let nodeMap = {};
         let currentNode = this.list.head;
         let prevNode = {};
-        let prevValue = -1;
-        //iterate through linked list, compare value with previous and remove
-        while(currentNode.next !== null) {
-            if (currentNode.value === prevValue) {
+        while (currentNode.next !== null) {
+            if (currentNode.value in nodeMap) {
+                nodeMap[currentNode.value] = nodeMap[currentNode.value] + 1;
                 prevNode.next = currentNode.next;
                 currentNode = currentNode.next;
-                continue;
+            } else {
+                prevNode = currentNode;
+                nodeMap[currentNode.value] = 1;
+                currentNode = currentNode.next;
             }
-            prevNode = currentNode;
-            prevValue = currentNode.value;
-            currentNode = currentNode.next;
         }
-        //handle last node logic for dupliation
-        if (prevValue === currentNode.value) {
+        //handle condition for the last node
+        if (currentNode.value in nodeMap) {
             prevNode.next = null;
-            this.tail = prevNode;
         }
-        this.updateNodes();
+        this.updateNodes(this.list);
     }
 
     //update the nodes[] state to reflect updated lists in UI
     updateNodes = () => {
         let nodes = [];
         let currentNode = this.list.head;
-        while(currentNode !== null) {
+        while (currentNode !== null) {
             nodes.push({ value: currentNode.value, bgColor: this.generateRandomColor() });
             if (currentNode)
-            currentNode = currentNode.next;
+                currentNode = currentNode.next;
         }
-        this.setState({nodes: nodes});
+        this.setState({ nodes: nodes });
     }
 
     render() {
