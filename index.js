@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
-const port = process.env.PORT || 5001;
+const port = process.env.PORT || 5000;
 const app = express();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http, {
@@ -27,6 +27,7 @@ io.on('connection', (socket) => {
     });
 
     socket.on('nodeValue', (value) => {
+        console.log(value);
         socket.broadcast.emit('node', value);
         const node = new linkedListNode({
             value: value
@@ -34,6 +35,10 @@ io.on('connection', (socket) => {
         node.save().then(result => {
         });
     });
+
+    socket.on('nodeAddRes', value => {
+        console.log(value);
+    })
 });
 
 http.listen(port, function (err) {

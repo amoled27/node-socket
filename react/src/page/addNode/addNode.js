@@ -1,5 +1,6 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { toastr } from 'toastr';
 let Style = {
     cardBody: {
         boxShadow: "7px 6px 8px #d0cdcd",
@@ -26,28 +27,45 @@ let Style = {
         cursor: "pointer"
     }
 };
-class NodeAdder extends React.Component {
+class AddNode extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            nodeValue: ''
+            nodeValue: '',
+            listId: -1
         }
     }
 
-    inputHandler() {
-        this.props.socket.emit('nodeValue', this.state.nodeValue);
+    componentDidMount() {
+     
     }
-    updateInput(e) {
+
+    inputHandler() {
+        this.props.socket.emit('nodeValue', JSON.stringify({ id: this.state.listId, value: this.state.nodeValue }));
+    }
+
+    //updates the value of node 
+    updateNodeValueInput(e) {
         this.setState({ nodeValue: e.target.value });
     }
+
+    //updates the value of listid
+    updateListIdInput(e) {
+        this.setState({ listId: e.target.value });
+    }
+
     render() {
         return (
             <div>
-                <Link to={"/linkedlist"} target="_blank" style={{fontSize: "20px"}}> Linked List</Link>
+                <Link to={"/linkedlist"} target="_blank" style={{ fontSize: "20px" }}> Linked List</Link>
                 <div style={Style.card}>
                     <div style={Style.cardBody}>
                         <h3>Add a Node</h3>
-                        <input type="text" style={Style.input} onChange={this.updateInput.bind(this)}></input>
+                        <label for="listId">Linklist Id</label>
+                        <input type="text" name="listId" style={Style.input} onChange={this.updateListIdInput.bind(this)}></input>
+
+                        <label for="nodeValue">Node Value</label>
+                        <input type="text" name="nodeValue" style={Style.input} onChange={this.updateNodeValueInput.bind(this)}></input>
                         <button style={Style.btn} onClick={this.inputHandler.bind(this)}>Add</button>
                     </div>
                 </div>
@@ -56,4 +74,4 @@ class NodeAdder extends React.Component {
     }
 }
 
-export default NodeAdder; 
+export default AddNode; 

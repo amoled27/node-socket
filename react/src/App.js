@@ -1,8 +1,9 @@
-import './App.css';
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import LinkedListView from "./page/linked-list/linked-list-view.js";
-import NodeAdder from './page/node-adder/node-adder.js';
+import AddNode from './page/addNode/addNode.js';
+import './App.css';
+import LinkedLists from "./page/linked-list/linkedLIsts.js";
+
 function App({socket}) {
   return (
     <div className="App">
@@ -10,9 +11,9 @@ function App({socket}) {
         <div style={{ height: "100%" }}>
           <Switch>
             <Route path="/linkedlist"
-              render={() => <LinkedListView socket={socket} />} />
+              render={() => <LinkedLists socket={socket} />} />
             <Route path="/"
-              render={() => <NodeAdder socket={socket} />} />
+              render={() => <AddNode socket={socket} />} />
           </Switch>
         </div>
       </Router>
