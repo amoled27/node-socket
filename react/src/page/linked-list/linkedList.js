@@ -45,10 +45,48 @@ class LinkedList extends React.Component {
         }
         return color;
     }
+
+    //remove duplicates from sorted linkedlist
+    removeDuplicateNodes = () => {
+        let currentNode = this.list.head;
+        let prevNode = {};
+        let prevValue = -1;
+        //iterate through linked list, compare value with previous and remove
+        while(currentNode.next !== null) {
+            if (currentNode.value === prevValue) {
+                prevNode.next = currentNode.next;
+                currentNode = currentNode.next;
+                continue;
+            }
+            prevNode = currentNode;
+            prevValue = currentNode.value;
+            currentNode = currentNode.next;
+        }
+        //handle last node logic for dupliation
+        if (prevValue === currentNode.value) {
+            prevNode.next = null;
+            this.tail = prevNode;
+        }
+        this.updateNodes();
+    }
+
+    //update the nodes[] state to reflect updated lists in UI
+    updateNodes = () => {
+        let nodes = [];
+        let currentNode = this.list.head;
+        while(currentNode !== null) {
+            nodes.push({ value: currentNode.value, bgColor: this.generateRandomColor() });
+            if (currentNode)
+            currentNode = currentNode.next;
+        }
+        this.setState({nodes: nodes});
+    }
+
     render() {
         return (
             <div className="container" className={css.node_container}>
                 <h5>Linked List</h5>
+                <button className="btn btn-success" onClick={this.removeDuplicateNodes}>Remove Duplicates</button>
                 {this.headArrow()}
                 {this.state.nodes.map((node, index) => {
                     return <div className={css.node} style={{ background: node.bgColor }} key={index}>{node.value}</div>
