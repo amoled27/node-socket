@@ -70,6 +70,7 @@ class LinkedList extends React.Component {
             console.log(evenLinkedList); //even list
             index++;
         }
+        //update even linkedlist's tail
     }
     render() {
         return (
