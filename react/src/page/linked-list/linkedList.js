@@ -1,5 +1,5 @@
 import React from 'react';
-import linkedList from '../../libs/linkedList.js';
+import DoublyLinkedList from '../../libs/DoublyLInkedList.js';
 import css from './linkedList.module.css';
 
 
@@ -9,7 +9,8 @@ class LinkedList extends React.Component {
         this.state = {
             nodes: []
         }
-        this.list = new linkedList();
+        this.list = new DoublyLinkedList();
+
     }
 
     componentDidMount() {
@@ -55,6 +56,9 @@ class LinkedList extends React.Component {
             if (currentNode.value in nodeMap) {
                 nodeMap[currentNode.value] = nodeMap[currentNode.value] + 1;
                 prevNode.next = currentNode.next;
+                if (currentNode.next) {
+                    currentNode.next.prev = prevNode;
+                }
                 currentNode = currentNode.next;
             } else {
                 prevNode = currentNode;
@@ -65,6 +69,7 @@ class LinkedList extends React.Component {
         //handle condition for the last node
         if (currentNode.value in nodeMap) {
             prevNode.next = null;
+            this.list.tail = prevNode;
         }
         this.updateNodes(this.list);
     }
