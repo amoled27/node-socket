@@ -1,46 +1,51 @@
-class circularLinkedlist {
+class CircularDoubleLinkedlist {
     constructor() {
         this.length = 0;
         this.head = null;
-        this.tail = null;
     }
 
     push = (value) => {
         let newNode = {
             value: value,
-            next: null
+            next: null,
+            prev: null
         }
         if (this.length > 0) {
-            // iterating till the length - 1 from 0 
             let currentNode = this.head;
-            for (let i = 0; i < this.length - 1; i++) {
-                currentNode = currentNode.next
+            /*since we do current node = head, the pointer is already on 1st node will jump to 2nd on 1st iteration
+            hence start loop from 1 for ease | same logic for all FOR loop iterations*/
+            for (let i = 1; i < this.length; i++) {
+                currentNode = currentNode.next;
             }
             currentNode.next = newNode;
+            newNode.prev = currentNode;
             newNode.next = this.head;
+            this.head.prev = newNode;
         } else {
+            //point head to the node and keep prev and next as same
             this.head = newNode;
-            newNode.next = this.head;
+            newNode.prev = newNode;
+            newNode.next = newNode;
         }
+        //increment length
         this.length++;
         return newNode;
     }
 
     pop = () => {
         let currentNode = this.head;
-        let index = this.length - 1;
-        //iterating till 2nd last node in a list
-        for (let i = 0; i < index - 1; i++) {
+        /** iterate till length | n-2 times */
+        for ( let i = 1; i < this.length - 1; i++) {
             currentNode = currentNode.next;
         }
-        //updating pointer of the secondlast
         let popNode = currentNode.next;
         currentNode.next = this.head;
+        this.head.prev = currentNode;
         this.length--;
         return popNode;
     }
 
-    peek = (index) => {
+    peekAtIndex = (index) => {
         let currentNode = this.head;
         for (let i = 0; i < index; i++) {
             currentNode = currentNode.next;
@@ -48,4 +53,4 @@ class circularLinkedlist {
         return currentNode;
     }
 }
-export default circularLinkedlist;
+export default CircularDoubleLinkedlist;

@@ -1,5 +1,5 @@
 import React from 'react';
-import circularLinkedList from '../../libs/circularLinkedList.js';
+import CircularDoubleLinkedlist from '../../libs/circularDoubleLinkedlist.js';
 import css from './linkedList.module.css';
 
 
@@ -9,7 +9,7 @@ class LinkedList extends React.Component {
         this.state = {
             nodes: []
         }
-        this.list = new circularLinkedList();
+        this.list = new CircularDoubleLinkedlist();
     }
 
     componentDidMount = () => {
@@ -65,16 +65,18 @@ class LinkedList extends React.Component {
         }
         //pointing the node link to the head => completes the first link list
         prevNode.next = this.list.head;
+        this.list.head.prev = prevNode;
         this.list.length = mid;
         //iterating from  mid to end for 2nd linked list 
         let midNode = currentNode;
-        let secondList = new circularLinkedList();
+        let secondList = new CircularDoubleLinkedlist();
         secondList.head = midNode;
         for (let i = 0; i < this.list.length; i++) {
             midNode = midNode.next;
         }
         // pointing the end to start of 2nd linkedlist
         midNode.next = secondList.head;
+        secondList.head.prev = midNode;
         secondList.length = listLen - mid;
         console.log(secondList, 'second list');
         console.log(this.list, 'list');
