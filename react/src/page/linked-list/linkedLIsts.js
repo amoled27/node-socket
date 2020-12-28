@@ -54,29 +54,45 @@ class LinkedLists extends React.Component {
             }
         });
     }
+    updateNodes = (list, index) => {
+    
+    }
 
     //checking the type of linkedlis
-    listTypeChecker = (listIndex) => {
-       let currentNode = this.state.linkedLists[listIndex].head;
-       /*if a node has prev as null, the node is initialized and prev is set to null => its doubly linked list */
-       if (currentNode.prev === null) {
-           window.alert('Its a doubly linked list');
-       } else {
-       /*if a node has prev as undefined, the js  initializes obj property as undefined => its not doubly linked list */
-        window.alert('Oops! not a doubly linked list');
+    reverseLinkedList = (listIndex) => {
+        let currentLinkedList = this.state.linkedLists[listIndex];
+        let currentNode = currentLinkedList.head;
+        let prevNode = null;
+        while (currentNode.next !== null) {
+            let temp = { ...currentNode };
+            currentNode.next = prevNode;
+            currentNode.prev = temp.next;
+            prevNode = currentNode;
+            currentNode = temp.next;
+        }
+        //last node condition
+        currentNode.next = prevNode;
+        currentNode.prev = null;
 
-       }
+        currentLinkedList.tail = currentLinkedList.head;
+        currentLinkedList.tail.next = null;
+        currentLinkedList.head = currentNode;
+
+        let linkedLists = this.state.linkedLists;
+        linkedLists[listIndex] = currentLinkedList;
+        this.setState({ linkedLists: linkedLists });
+        // this.updateNodes(currentLinkedList, listIndex);
     }
+
     render = () => {
         return (
             <div className={css.node_container + " container"}>
                 <h5>Linked List</h5>
                 <p>No of Linked lists: {this.state.linkedLists.length}</p>
-                <button className="btn btn-primary" onClick={this.createLinkedList}>Create a list</button>
                 <button className="btn btn-primary" onClick={this.createDoublyLinkedList}>Create a doubly linked list</button>
 
                 {this.state.linkedLists.map((list, index) => {
-                    return <LinkedList key={index} list={list} checkListType={this.listTypeChecker} listIndex={index} nodes={this.state.nodesArray[index] ? this.state.nodesArray[index] : []} />
+                    return <LinkedList key={index} list={list} reverse={this.reverseLinkedList} listIndex={index} nodes={this.state.nodesArray[index] ? this.state.nodesArray[index] : []} />
                 })}
             </div>
         )

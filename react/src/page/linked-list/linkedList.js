@@ -34,7 +34,7 @@ class LinkedList extends React.Component {
                 {this.props.nodes.map((node, index) => {
                     return <div className={css.node} style={{ background: node.bgColor }} key={index}>{node.value}</div>
                 })}
-                <button className="btn btn-danger" onClick={() => this.props.checkListType(this.props.listIndex)}>Check list type</button>
+                <button className="btn btn-danger" onClick={() => this.props.reverse(this.props.listIndex)}>Reverse</button>
             </div>
         )
     }
