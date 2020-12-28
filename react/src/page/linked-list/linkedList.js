@@ -7,8 +7,7 @@ class LinkedList extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            nodes: [],
-            evenList: {}
+            nodes: []
         }
         this.list = new linkedList();
     }
@@ -48,35 +47,40 @@ class LinkedList extends React.Component {
         return color;
     }
 
-    segmentEvenOdd = () => {
+    reverseLinkedList = () => {
         let currentNode = this.list.head;
-        let prevNode = {};
-        let index = 1;
-        let evenLinkedList = new linkedList();
-        while (currentNode !== null) {
-            // for even nodes of the linkedlist
-            if (index % 2 === 0) {
-                //deleting the even node and making its, next null
-                prevNode.next = currentNode.next;
-                currentNode.next = null;
-                evenLinkedList.push(currentNode.value);
-                currentNode = prevNode.next;
-            } else {
-                //increment the index without delete
-                prevNode = currentNode;
-                currentNode = currentNode.next;
-            }
-            console.log(this.list, 'list'); //odd list
-            console.log(evenLinkedList); //even list
-            index++;
+        let prevNode = null;
+        //point tail pointer to first node
+        this.tail = currentNode.head;
+        while (currentNode.next !== null) {
+            // reverse node links
+            let tempNode = currentNode.next;
+            currentNode.next = prevNode;
+            prevNode = currentNode;
+            currentNode = tempNode;
         }
-        //update even linkedlist's tail
+        currentNode.next = prevNode;
+        this.list.head = currentNode;
+        console.log(this.list)
+        this.updateNodes();
     }
+
+    updateNodes = () => {
+        ///update node state
+        let nodes = [];
+        let currentNode = this.list.head;
+        while (currentNode !== null) {
+            nodes.push({ value: currentNode.value, bgColor: this.generateRandomColor() });
+            currentNode = currentNode.next;
+        }
+        this.setState({ nodes: nodes });
+    }
+
     render() {
         return (
             <div className="container" className={css.node_container}>
                 <h5>Linked List</h5>
-                <button className="btn btn-warning" onClick={this.segmentEvenOdd} >Segment</button>
+                <button className="btn btn-warning" onClick={this.reverseLinkedList} >Segment</button>
                 {this.headArrow()}
                 {this.state.nodes.map((node, index) => {
                     return <div className={css.node} style={{ background: node.bgColor }} key={index}>{node.value}</div>
