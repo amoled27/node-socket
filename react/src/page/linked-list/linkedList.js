@@ -1,5 +1,5 @@
 import React from 'react';
-import linkedList from '../../libs/linkedList.js';
+import circularLinkedList from '../../libs/circularLinkedList.js';
 import css from './linkedList.module.css';
 
 
@@ -9,7 +9,7 @@ class LinkedList extends React.Component {
         this.state = {
             nodes: []
         }
-        this.list = new linkedList();
+        this.list = new circularLinkedList();
     }
 
     componentDidMount = () => {
