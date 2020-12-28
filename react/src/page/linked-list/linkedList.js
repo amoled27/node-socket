@@ -22,9 +22,14 @@ class LinkedList extends React.Component {
 
     //updates the linked list after a node is pushed
     updateList = () => {
-        let lastNode = this.list.tail;
+        let currentNode = this.list.head;
+        //iterate till last node 
+        console.log(this.list.length);
+        for (let i = 0 ; i < this.list.length - 1; i++) {
+            currentNode = currentNode.next;
+        }
         this.setState({
-            nodes: [...this.state.nodes, { value: lastNode.value, bgColor: this.generateRandomColor() }]
+            nodes: [...this.state.nodes, { value: currentNode.value, bgColor: this.generateRandomColor() }]
         });
     }
 
@@ -47,22 +52,17 @@ class LinkedList extends React.Component {
         return color;
     }
 
-    reverseLinkedList = () => {
+    checkIfCircularLinkedlist = () => {
         let currentNode = this.list.head;
-        let prevNode = null;
-        //point tail pointer to first node
-        this.tail = currentNode.head;
-        while (currentNode.next !== null) {
-            // reverse node links
-            let tempNode = currentNode.next;
-            currentNode.next = prevNode;
-            prevNode = currentNode;
-            currentNode = tempNode;
+
+        for (let i = 0; i < this.list.length; i++) {
+            currentNode = currentNode.next;
         }
-        currentNode.next = prevNode;
-        this.list.head = currentNode;
-        console.log(this.list)
-        this.updateNodes();
+        if (currentNode.next === null) {
+            alert ('not a circular linkedlist');
+        } else {
+            alert('Circular linked list');
+        }
     }
 
     updateNodes = () => {
@@ -80,7 +80,7 @@ class LinkedList extends React.Component {
         return (
             <div className="container" className={css.node_container}>
                 <h5>Linked List</h5>
-                <button className="btn btn-warning" onClick={this.reverseLinkedList} >Segment</button>
+                <button className="btn btn-warning" onClick={this.checkIfCircularLinkedlist}>Check if Circular</button>
                 {this.headArrow()}
                 {this.state.nodes.map((node, index) => {
                     return <div className={css.node} style={{ background: node.bgColor }} key={index}>{node.value}</div>
