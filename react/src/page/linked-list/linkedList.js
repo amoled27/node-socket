@@ -52,17 +52,32 @@ class LinkedList extends React.Component {
         return color;
     }
 
-    checkIfCircularLinkedlist = () => {
+    splitIntoTwo = () => {
+        //spli the linkedlist into two 
+        let listLen = this.list.length;
+        let mid = Math.floor(listLen/2);
         let currentNode = this.list.head;
-
-        for (let i = 0; i < this.list.length; i++) {
+        let prevNode = null;
+        //start with 0 so currentnode will be pointing mid+1 & prev node will be mid
+        for (let i = 0; i < mid; i++) {
+            prevNode = currentNode;
             currentNode = currentNode.next;
         }
-        if (currentNode.next === null) {
-            alert('not a circular linkedlist');
-        } else {
-            alert('Circular linked list');
+        //pointing the node link to the head => completes the first link list
+        prevNode.next = this.list.head;
+        this.list.length = mid;
+        //iterating from  mid to end for 2nd linked list 
+        let midNode = currentNode;
+        let secondList = new circularLinkedList();
+        secondList.head = midNode;
+        for (let i = 0; i < this.list.length; i++) {
+            midNode = midNode.next;
         }
+        // pointing the end to start of 2nd linkedlist
+        midNode.next = secondList.head;
+        secondList.length = listLen - mid;
+        console.log(secondList, 'second list');
+        console.log(this.list, 'list');
     }
 
     updateNodes = () => {
@@ -80,7 +95,7 @@ class LinkedList extends React.Component {
         return (
             <div className="container" className={css.node_container}>
                 <h5>Linked List</h5>
-                <button className="btn btn-warning" onClick={this.checkIfCircularLinkedlist}>Check if Circular</button>
+                <button className="btn btn-warning" onClick={this.splitIntoTwo}>split</button>
                 {this.headArrow()}
                 {this.state.nodes.map((node, index) => {
                     return <div className={css.node} style={{ background: node.bgColor }} key={index}>{node.value}</div>
