@@ -25,7 +25,7 @@ class LinkedList extends React.Component {
         let currentNode = this.list.head;
         //iterate till last node 
         console.log(this.list.length);
-        for (let i = 0 ; i < this.list.length - 1; i++) {
+        for (let i = 0; i < this.list.length - 1; i++) {
             currentNode = currentNode.next;
         }
         this.setState({
@@ -59,7 +59,7 @@ class LinkedList extends React.Component {
             currentNode = currentNode.next;
         }
         if (currentNode.next === null) {
-            alert ('not a circular linkedlist');
+            alert('not a circular linkedlist');
         } else {
             alert('Circular linked list');
         }
