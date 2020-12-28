@@ -1,8 +1,8 @@
 import React from 'react';
-import css from './linked-list-view.module.css';
+import css from './linkedList.module.css';
 
 
-class LinkedListView extends React.Component {
+class LinkedList extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -34,8 +34,9 @@ class LinkedListView extends React.Component {
                 {this.props.nodes.map((node, index) => {
                     return <div className={css.node} style={{ background: node.bgColor }} key={index}>{node.value}</div>
                 })}
+                <button className="btn btn-danger" onClick={() => this.props.checkListType(this.props.listIndex)}>Check list type</button>
             </div>
         )
     }
 }
-export default LinkedListView; 
+export default LinkedList; 

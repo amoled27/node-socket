@@ -1,5 +1,5 @@
 
-class LinkedList {
+class Linkedlist {
     constructor() {
         this.length = 0;
         this.head = null;
@@ -90,4 +90,4 @@ class LinkedList {
     }
 }
 
-export default LinkedList;
+export default Linkedlist;

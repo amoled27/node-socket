@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { toastr } from 'toastr';
 let Style = {
     cardBody: {
         boxShadow: "7px 6px 8px #d0cdcd",
