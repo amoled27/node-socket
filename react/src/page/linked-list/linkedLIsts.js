@@ -55,33 +55,36 @@ class LinkedLists extends React.Component {
         });
     }
     updateNodes = (list, index) => {
-    
+
     }
 
     //checking the type of linkedlis
-    reverseLinkedList = (listIndex) => {
-        let currentLinkedList = this.state.linkedLists[listIndex];
-        let currentNode = currentLinkedList.head;
+    segregateEvenOdd = (listIndex) => {
+        //getting the selected list from the lists
+        let currentList = this.state.linkedLists[listIndex];
+        let currentNode = currentList.head;
         let prevNode = null;
-        while (currentNode.next !== null) {
-            let temp = { ...currentNode };
-            currentNode.next = prevNode;
-            currentNode.prev = temp.next;
+        let index = 1;
+        let evenList = new DoublyLinkedList();
+        while (currentNode !== null) {
+            if (index % 2 === 0) {
+                // push even to new linked list
+                evenList.push(currentNode.value);
+                //remove current from existing LL & update address
+                prevNode.next = currentNode.next;
+                if (currentNode.next) {
+                    currentNode.next.prev = prevNode;
+                }
+                currentNode = prevNode;
+            } 
+            //update increment pointer
             prevNode = currentNode;
-            currentNode = temp.next;
+            currentNode = currentNode.next;
+            index++;
         }
-        //last node condition
-        currentNode.next = prevNode;
-        currentNode.prev = null;
-
-        currentLinkedList.tail = currentLinkedList.head;
-        currentLinkedList.tail.next = null;
-        currentLinkedList.head = currentNode;
-
-        let linkedLists = this.state.linkedLists;
-        linkedLists[listIndex] = currentLinkedList;
-        this.setState({ linkedLists: linkedLists });
-        // this.updateNodes(currentLinkedList, listIndex);
+        console.log(currentList, 'list')
+        console.log(evenList, 'evn')
+        //display lists
     }
 
     render = () => {
@@ -92,7 +95,7 @@ class LinkedLists extends React.Component {
                 <button className="btn btn-primary" onClick={this.createDoublyLinkedList}>Create a doubly linked list</button>
 
                 {this.state.linkedLists.map((list, index) => {
-                    return <LinkedList key={index} list={list} reverse={this.reverseLinkedList} listIndex={index} nodes={this.state.nodesArray[index] ? this.state.nodesArray[index] : []} />
+                    return <LinkedList key={index} list={list} segregate={this.segregateEvenOdd} listIndex={index} nodes={this.state.nodesArray[index] ? this.state.nodesArray[index] : []} />
                 })}
             </div>
         )
