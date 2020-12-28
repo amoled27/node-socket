@@ -1,5 +1,5 @@
 import React from 'react';
-import circularLinkedList from '../../libs/circularLinkedList.js';
+import circularDoubleLinkedList from '../../libs/circularDoubleLinkedList.js';
 import css from './linkedList.module.css';
 
 
@@ -9,7 +9,7 @@ class LinkedList extends React.Component {
         this.state = {
             nodes: []
         }
-        this.list = new circularLinkedList();
+        this.list = new circularDoubleLinkedList();
     }
 
     componentDidMount = () => {
@@ -24,7 +24,6 @@ class LinkedList extends React.Component {
     updateList = () => {
         let currentNode = this.list.head;
         //iterate till last node 
-        console.log(this.list.length);
         for (let i = 0; i < this.list.length - 1; i++) {
             currentNode = currentNode.next;
         }
@@ -54,14 +53,19 @@ class LinkedList extends React.Component {
 
     checkIfCircularLinkedlist = () => {
         let currentNode = this.list.head;
-
-        for (let i = 0; i < this.list.length; i++) {
+        //iterate till the last node
+        for (let i = 1; i < this.list.length; i++) {
             currentNode = currentNode.next;
         }
         if (currentNode.next === null) {
             alert('not a circular linkedlist');
         } else {
-            alert('Circular linked list');
+            //js initializes an object as undefined if itsnot there already
+            if (currentNode.prev === undefined) {
+                alert('not doubly circular linked list');
+            } else {
+                alert('doubly circular linked list');
+            }
         }
     }
 
@@ -76,11 +80,23 @@ class LinkedList extends React.Component {
         this.setState({ nodes: nodes });
     }
 
+    popNode = () => {
+        //pop a node
+        let poppedNode = this.list.pop();
+        console.log(poppedNode, 'poppednode');
+        console.log(this.list, 'list')
+    }
+
+    peek = (index) => {
+        let peekNode = this.list.peekAtIndex(index);
+        console.log(peekNode);
+    }
+
     render() {
         return (
             <div className="container" className={css.node_container}>
                 <h5>Linked List</h5>
-                <button className="btn btn-warning" onClick={this.checkIfCircularLinkedlist}>Check if Circular</button>
+                <button className="btn btn-warning" onClick={this.checkIfCircularLinkedlist}>Check if Doubly Circular</button>
                 {this.headArrow()}
                 {this.state.nodes.map((node, index) => {
                     return <div className={css.node} style={{ background: node.bgColor }} key={index}>{node.value}</div>
